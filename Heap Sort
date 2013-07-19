@@ -1,0 +1,66 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int parent(int n){
+    return (n-1)/2;
+}
+
+int left(int n){
+    return (2*n)+1;
+}
+
+int right(int n){
+    return (2*n)+2;
+}
+
+void heapify(int a[],int i,int sz){
+    int largest, l = left(i), r = right(i);
+    
+    if(l<=sz && a[l]>a[i])
+        largest = l;
+    else
+        largest = i;
+        
+    if(r<=sz && a[r]>a[largest])
+        largest = r; 
+        
+    if(i!=largest){
+        int temp = a[i];
+        a[i] = a[largest];
+        a[largest] = temp;
+        heapify(a,largest,sz);
+    }
+}
+
+void make_heap(int a[],int sz){
+    int i;
+    for(i=sz/2-1;i>=0;i--){
+        heapify(a,i,sz-1);
+    }
+}
+
+void heap_sort(int a[],int sz){
+    make_heap(a,sz);
+    sz--;
+    while(sz>0){
+        swap(a[0],a[sz]);
+        sz--;
+        heapify(a,0,sz);
+    }
+    
+}
+
+int main(){
+    int a[]={2,5,1,3,4,7,10,8,9},i;
+            
+    heap_sort(a,sizeof(a)/sizeof(a[0]));
+    
+    int sz = sizeof(a)/sizeof(a[0]);
+    
+    for(i=0;i<sz;i++)
+        cout<<a[i]<<endl;
+        
+    return 0;    
+    
+}
